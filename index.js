@@ -83,7 +83,7 @@ server.put("/api/users/:id", (req, res) => {
       .update(id, user)
       .then(userID => {
         if (user) {
-          res.status(201).json(userID);
+          res.status(200).json(userID);
         } else {
           res.status(404).json({
             errorMessage: "The user with the specified ID does not exist."
@@ -105,7 +105,7 @@ server.delete("/api/users/:id", (req, res) => {
     .remove(id)
     .then(removed => {
       if (removed) {
-        res.status(200).json(removed);
+        res.status(204).json(removed);
       } else {
         res
           .status(404)
