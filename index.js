@@ -58,7 +58,7 @@ server.post("/api/users", (req, res) => {
     data
       .insert(newuser)
       .then(newuserID => {
-        res.status(200).json(newuserID);
+        res.status(201).json(newuserID);
       })
       .catch(error => {
         console.log(error);
@@ -83,7 +83,7 @@ server.put("/api/users/:id", (req, res) => {
       .update(id, user)
       .then(userID => {
         if (user) {
-          res.status(200).json(userID);
+          res.status(201).json(userID);
         } else {
           res.status(404).json({
             errorMessage: "The user with the specified ID does not exist."
