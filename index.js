@@ -5,101 +5,101 @@ const server = express();
 server.use(express.json());
 
 //url base
-server.get("/", (req, res) => {
-  res.json("Anna's hobbit API");
+server.get("/api/", (req, res) => {
+  res.json("Anna's user API");
 });
 
-//get all hobbits
-server.get("/hobbits", (req, res) => {
+//get all users
+server.get("/api/users", (req, res) => {
   data
     .find()
-    .then(hobbits => {
-      res.status(200).json(hobbits);
+    .then(users => {
+      res.status(200).json(users);
     })
     .catch(error => {
       console.log(error);
       res.status(500).json({
         errorMessage:
-          "There was an error while saving the hobbit to the database"
+          "There was an error while saving the user to the database"
       });
     });
 });
 
-//get hobbit by id
-server.get("/hobbits/:id", (req, res) => {
+//get user by id
+server.get("/api/users/:id", (req, res) => {
   const { id } = req.params;
   data
     .findById(id)
-    .then(hobbit => {
-      if (!hobbit) {
+    .then(user => {
+      if (!user) {
         res.status(404).json({
-          message: "The hobbit with the specified ID does not exist."
+          message: "The user with the specified ID does not exist."
         });
       } else {
-        res.status(200).json(hobbit);
+        res.status(200).json(user);
       }
     })
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        errorMessage: "The hobbit information could not be retrieved."
+        errorMessage: "The user information could not be retrieved."
       });
     });
 });
 
-//add a new hobbit
-server.post("/hobbits", (req, res) => {
-  const newHobbit = req.body;
-  if (!newHobbit.name || !newHobbit.bio) {
+//add a new user
+server.post("/api/users", (req, res) => {
+  const newuser = req.body;
+  if (!newuser.name || !newuser.bio) {
     res.status(400).json({
-      errorMessage: "Please provide a name and bio for the hobbit"
+      errorMessage: "Please provide a name and bio for the user"
     });
   } else {
     data
-      .insert(newHobbit)
-      .then(newHobbitID => {
-        res.status(200).json(newHobbitID);
+      .insert(newuser)
+      .then(newuserID => {
+        res.status(200).json(newuserID);
       })
       .catch(error => {
         console.log(error);
         res.status(500).json({
           errorMessage:
-            "There was an error while saving the hobbit to the database"
+            "There was an error while saving the user to the database"
         });
       });
   }
 });
 
-//edit a hobbit by id
-server.put("/hobbits/:id", (req, res) => {
+//edit a user by id
+server.put("/api/users/:id", (req, res) => {
   const { id } = req.params;
-  const hobbit = req.body;
-  if (!hobbit.name || !hobbit.bio) {
+  const user = req.body;
+  if (!user.name || !user.bio) {
     res
       .status(400)
-      .json({ errorMessage: "Please provide a name and bio for the hobbit." });
+      .json({ errorMessage: "Please provide a name and bio for the user." });
   } else {
     data
-      .update(id, hobbit)
-      .then(hobbitID => {
-        if (hobbit) {
-          res.status(200).json(hobbitID);
+      .update(id, user)
+      .then(userID => {
+        if (user) {
+          res.status(200).json(userID);
         } else {
           res.status(404).json({
-            errorMessage: "The hobbit with the specified ID does not exist."
+            errorMessage: "The user with the specified ID does not exist."
           });
         }
       })
       .catch(error => {
         console.log(error);
         res.status(500).json({
-          errorMessage: "The hobbit information could not be modified."
+          errorMessage: "The user information could not be modified."
         });
       });
   }
 });
 
-server.delete("/hobbits/:id", (req, res) => {
+server.delete("/api/users/:id", (req, res) => {
   const { id } = req.params;
   data
     .remove(id)
@@ -110,13 +110,13 @@ server.delete("/hobbits/:id", (req, res) => {
         res
           .status(404)
           .json({
-            message: "The hobbit with the specified ID does not exist."
+            message: "The user with the specified ID does not exist."
           });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ errorMessage: "The hobbit could not be removed" });
+      res.status(500).json({ errorMessage: "The user could not be removed" });
     });
 });
 
